@@ -1,0 +1,12 @@
+dependencies:
+- name: prometheus
+  repository: https://kubernetes-charts.storage.googleapis.com
+  version: 8.3.0
+- name: grafana
+  repository: https://kubernetes-charts.storage.googleapis.com
+  version: 1.21.2
+- name: loki
+  repository: file://loki
+  version: 0.0.1
+digest: sha256:78566b52c9563c639e8d004d21ac6bb736963e8d609c8f383506749770ea823a
+generated: 2018-12-28T17:38:02.665458067+08:00

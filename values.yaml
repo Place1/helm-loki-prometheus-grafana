@@ -1,0 +1,60 @@
+prometheus:
+  alertmanager:
+    enabled: false
+  kubeStateMetrics:
+    enabled: false
+  pushgateway:
+    enabled: false
+  nodeExporter:
+    enabled: false
+  server:
+    fullname: prometheus
+    persistentVolume:
+      enabled: false
+
+grafana:
+  persistence:
+    enabled: false
+  image:
+    repository: grafana/grafana
+    tag: master
+  service:
+    type: NodePort
+  adminUser: admin
+  adminPassword: password
+  grafana.ini:
+    explore:
+      enabled: true
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+        - name: default
+          orgId: 1
+          type: file
+          disableDeletion: true
+          editable: false
+          options:
+            path: /var/lib/grafana/dashboards/default
+  dashboards:
+    default:
+      kubernetes:
+        gnetId: 162
+        revision: 1
+        datasource: Prometheus
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+        - name: Prometheus
+          type: prometheus
+          url: "http://{{ .Release.Name }}-prometheus-server:80"
+          access: proxy
+          editable: false
+          basicAuth: false
+        - name: Loki
+          type: loki
+          access: proxy
+          url: "http://{{ .Release.Name }}-loki:3100"
+          editable: false
+          basicAuth: false
